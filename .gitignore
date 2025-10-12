@@ -4,5 +4,13 @@ __pycache__/
 *.pyo
 *.pyd
 
+# virtual environments
+venv/
+env/
+.venv/
+
+# run scripts
+_RUN
+
 # mac system files
 .DS_Store

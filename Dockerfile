@@ -13,11 +13,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  
 # setup
 WORKDIR /app
-COPY . /app/
+COPY app.py /app/
+COPY py /app/py/
+COPY data /app/data/
+COPY assets /app/assets/
+COPY models /app/models/
+COPY requirements.txt /app/
 
 # upgrade pip and install Python dependencies
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements.streamlit.txt
 
 # expose Streamlit port
 EXPOSE 8501

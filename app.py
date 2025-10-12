@@ -10,7 +10,7 @@ from py.handlers.video_handler import handle_video
 
 ## APP page setup
 st.set_page_config(
-    page_title="Automated inventory monitoring",
+    page_title="Inventory detector",
     page_icon="🛒",
     layout="wide")
 
@@ -71,24 +71,18 @@ with col_center:
 # APP model & inventory level selection
 # -------------------------------
 with col_center:
-    model_label_col, label_mode_col = st.columns([1, 1])  
-    with model_label_col:
-        st.write("⚙️ Select fine tuned model")
-        model_choices = ["models/model_25-08-02.pt", 
-                         "models/model_25-08-01.pt", 
-                         "models/yolov8n.pt"]
-        model_selected = st.selectbox("", options=model_choices, index=0)
-        if model_selected != getattr(tracker, "model_path", None):
-            tracker.model = tracker.model.__class__(model_selected)
-            tracker.model_path = model_selected
-            tracker.reset_output_stats()
-            st.success(f"✅ Loaded model: {model_selected}")
-    with label_mode_col:
-        st.write("⚙️ Inventory detection level (use `sku_code` for developer test):")
-        tracker.label_mode = st.selectbox(
-            "",
-            options=["item_name", "category", "sub_category", "brand", "sku_code"],
-            index=0)
+    # Hard-coded model
+    model_selected = "models/model-segment_25-10-10.pt"
+    if model_selected != getattr(tracker, "model_path", None):
+        tracker.model = tracker.model.__class__(model_selected)
+        tracker.model_path = model_selected
+        tracker.reset_output_stats()
+    
+    st.write("⚙️ Inventory detection level (use `sku_code` for developer test):")
+    tracker.label_mode = st.selectbox(
+        "",
+        options=["item_name", "category", "sub_category", "brand", "sku_code"],
+        index=0)
 
 # -------------------------------
 # Helper functions
